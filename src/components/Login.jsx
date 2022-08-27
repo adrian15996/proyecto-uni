@@ -7,7 +7,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faFacebook } from "@fortawesome/free-brands-svg-icons/faFacebook";
+import { faFacebookF } from "@fortawesome/free-brands-svg-icons/";
+import { faG } from "@fortawesome/free-solid-svg-icons";
 const Login = () => {
   return (
     <View
@@ -60,12 +61,16 @@ const Login = () => {
         </Text>
         <View
           style={{
-            alignItems: "center",
+            justifyContent: "center",
             marginTop: 20,
+            flexDirection: "row",
           }}
         >
-          <Text>
-            <FontAwesomeIcon icon={faFacebook} size={32} />
+          <Text style={styles.brandsIcons}>
+            <FontAwesomeIcon icon={faFacebookF} size={20} />
+          </Text>
+          <Text style={styles.brandsIcons}>
+            <FontAwesomeIcon icon={faG} size={20} />
           </Text>
         </View>
       </View>
@@ -96,6 +101,13 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 30,
     fontSize: 20,
+  },
+  brandsIcons: {
+    elevation: 3,
+    borderWidth: 1,
+    borderRadius: "100%",
+    padding: 10,
+    margin: 10,
   },
 });
 export { Login };
