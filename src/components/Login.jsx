@@ -5,27 +5,26 @@ import {
   TextInput,
   TouchableHighlight,
   StyleSheet,
+  useWindowDimensions,
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons/";
 import { faG } from "@fortawesome/free-solid-svg-icons";
-const Login = () => {
+import logo from "../../assets/Logo.png";
+const Login = ({ navigation }) => {
+  const windowHeight = useWindowDimensions().height;
   return (
     <View
       style={{
         height: "100%",
         alignItems: "center",
         justifyContent: "space-around",
+        minHeight: Math.round(windowHeight),
       }}
     >
       <View style={{ alignItems: "center", marginTop: "20%" }}>
-        <Image
-          source={{
-            uri: "https://img.freepik.com/vector-premium/pet-shop-paw-logo_142351-10.jpg?w=2000",
-          }}
-          style={{ width: 150, height: 150 }}
-        />
-        <Text style={{ fontSize: 30 }}>Iniciar session</Text>
+        <Image source={logo} style={{ width: 150, height: 150 }} />
+        <Text style={{ fontSize: 30, fontWeight:'bold' }}>Iniciar session</Text>
       </View>
       <View
         style={{
@@ -33,8 +32,8 @@ const Login = () => {
           height: "auto",
         }}
       >
-        <View style={{ marginBottom: 30 }}>
-          <Text style={{ fontSize: 20 }}>Nombre de usuario</Text>
+        <View style={{ marginBottom: 30, marginTop: 10 }}>
+          <Text style={{ fontSize: 20 }}>Nombre de usuario/Email</Text>
           <TextInput style={styles.inputs} />
         </View>
         <View>
@@ -46,7 +45,7 @@ const Login = () => {
       <View style={styles.buttonContainer}>
         <TouchableHighlight
           onPress={() => {
-            console.log("hello");
+            navigation.navigate("PetDetail");
           }}
         >
           <Text style={styles.initButton}>Iniciar Session</Text>
@@ -76,7 +75,14 @@ const Login = () => {
       </View>
 
       <View>
-        <Text>No tienes cuenta? Registrate</Text>
+        <Text>
+          No tienes cuenta?{" "}
+          <TouchableHighlight  onPress={() => {
+            navigation.navigate("Registration");
+          }}>
+            <Text style={{ fontWeight: "bold" }}>Registrate</Text>
+          </TouchableHighlight>
+        </Text>
       </View>
     </View>
   );
@@ -96,16 +102,21 @@ const styles = StyleSheet.create({
   initButton: {
     textAlign: "center",
     height: 50,
-    backgroundColor: "#14b3d7",
+    backgroundColor: "#90e1b4",
     padding: 10,
     width: "100%",
     borderRadius: 30,
     fontSize: 20,
+    color:"#ffffff",
+    fontWeight:"bold"
   },
   brandsIcons: {
-    elevation: 3,
+    shadowColor: "#171717",
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
     borderWidth: 1,
-    borderRadius: "100%",
+    borderRadius: 40,
     padding: 10,
     margin: 10,
   },
