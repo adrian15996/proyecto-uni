@@ -11,8 +11,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons/";
 import { faG } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/Logo.png";
-const Login = ({ navigation }) => {
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { singin } from "../api/auth";
+
+const Registration = ({ navigation }) => {
   const windowHeight = useWindowDimensions().height;
+  const formik = useFormik({
+    initialValues: { email: "", password: "", name: "" },
+    validateOnChange: false,
+    validationSchema: Yup.object({
+      name:Yup.string(),
+      email: Yup.string()
+        .email("EL formato del correo es incorrecto")
+        .required("El email es obligatorio"),
+      password: Yup.string().required("La contraseña es obligatoria"),
+    }),
+    onSubmit: async (data) => {
+      try {
+        await singin(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
   return (
     <View
       style={{
@@ -24,7 +46,7 @@ const Login = ({ navigation }) => {
     >
       <View style={{ alignItems: "center", marginTop: "20%" }}>
         <Image source={logo} style={{ width: 150, height: 150 }} />
-        <Text style={{ fontSize: 30, fontWeight:'bold' }}>Iniciar session</Text>
+        <Text style={{ fontSize: 30, fontWeight: "bold" }}>Registrate</Text>
       </View>
       <View
         style={{
@@ -33,22 +55,42 @@ const Login = ({ navigation }) => {
         }}
       >
         <View style={{ marginBottom: 30, marginTop: 10 }}>
-          <Text style={{ fontSize: 20 }}>Nombre de usuario/Email</Text>
-          <TextInput style={styles.inputs} />
+          <Text style={{ fontSize: 20 }}>Nombre completo</Text>
+          <TextInput
+            style={styles.inputs}
+            value={formik.values.name}
+            autoCapitalize="none"
+            onChangeText={(text) => formik.setFieldValue("name", text)}
+          />
+        </View>
+        <View style={{ marginBottom: 30, marginTop: 10 }}>
+          <Text style={{ fontSize: 20 }}>Email</Text>
+          <TextInput
+            style={styles.inputs}
+            value={formik.values.email}
+            autoCapitalize="none"
+            onChangeText={(text) => formik.setFieldValue("email", text)}
+          />
         </View>
         <View>
           <Text style={{ fontSize: 20 }}>Contraseña</Text>
-          <TextInput secureTextEntry={true} style={styles.inputs} />
+          <TextInput
+            secureTextEntry={true}
+            style={styles.inputs}
+            value={formik.values.password}
+            autoCapitalize="none"
+            onChangeText={(text) => formik.setFieldValue("password", text)}
+          />
           <Text style={{ alignSelf: "flex-end" }}>Olvidaste la Contraseña</Text>
         </View>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableHighlight
           onPress={() => {
-            navigation.navigate("PetDetail");
+            formik.handleSubmit();
           }}
         >
-          <Text style={styles.initButton}>Iniciar Session</Text>
+          <Text style={styles.initButton}>Registrarse</Text>
         </TouchableHighlight>
         <Text
           style={{
@@ -76,11 +118,13 @@ const Login = ({ navigation }) => {
 
       <View>
         <Text>
-          No tienes cuenta?{" "}
-          <TouchableHighlight  onPress={() => {
-            navigation.navigate("Registration");
-          }}>
-            <Text style={{ fontWeight: "bold" }}>Registrate</Text>
+          Si tienes cuenta?{" "}
+          <TouchableHighlight
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
+          >
+            <Text style={{ fontWeight: "bold" }}>Inicia Session</Text>
           </TouchableHighlight>
         </Text>
       </View>
@@ -107,8 +151,8 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 30,
     fontSize: 20,
-    color:"#ffffff",
-    fontWeight:"bold"
+    color: "#ffffff",
+    fontWeight: "bold",
   },
   brandsIcons: {
     shadowColor: "#171717",
@@ -121,4 +165,4 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
-export { Login };
+export { Registration };

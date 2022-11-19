@@ -1,0 +1,1 @@
+export const API_HOST ="https://expressjs-postgres-production-e742.up.railway.app"
