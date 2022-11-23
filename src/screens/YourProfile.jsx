@@ -12,14 +12,60 @@ import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useRef } from "react";
 import user from "../../assets/UserWithDog.jpg";
 import PhoneInput from "react-native-phone-number-input";
+import { useDispatch, useSelector } from "react-redux";
+import { updateDataUser } from "../api/users";
+import {
+  setLogin,
+  setEmail,
+  setGender,
+  setName,
+  setPhone,
+} from "../actions";
 
-export function YourProfile({navigation}) {
-  const [value, setValue] = useState("");
-  const [valid, setValid] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
+
+export function YourProfile({ navigation }) {
+  const { name, gender, email, phone, hashLogin } = useSelector((data) => data.login);
+  const data = useSelector((data) => data);
+  const dispatch = useDispatch();
+
+  const [value, setValue] = useState(phone);
+  const [mail, setMail] = useState(email);
+  const [nombre, setNombre] = useState(name);
   const phoneInput = useRef < PhoneInput > null;
+  const [isChecked, setChecked] = React.useState(gender);
 
-  const [isChecked, setChecked] = React.useState(true);
+  const handleSubmit = async () => {
+    let flag = false;
+    const perfil = { person:{} };
+    if (mail !== email) {
+      perfil.person.email = mail;
+      flag=true;
+    }
+    if (value !== phone) {
+      perfil.person.phone = value;
+      flag=true;
+    }
+    if (isChecked !== gender) {
+      perfil.person.gender = isChecked;
+      flag=true;
+    }
+    if (nombre !== name) {
+      perfil.person.name = nombre;
+      flag=true;
+    }
+    try {
+      const res = await updateDataUser(hashLogin,perfil);
+      dispatch(setEmail(mail));
+      dispatch(setGender(isChecked));
+      dispatch(setName(nombre));
+      dispatch(setPhone(value));
+      console.log(perfil)
+      console.log(res)
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <ScrollView>
@@ -28,17 +74,21 @@ export function YourProfile({navigation}) {
           <Image style={styles.image} source={user} />
         </View>
         <Text style={styles.SubTitle}> Nombre completo</Text>
-        <TextInput style={styles.inputs} />
+        <TextInput
+          style={styles.inputs}
+          value={nombre}
+          onChangeText={(text) => setNombre(text)}
+        />
         <Text style={styles.SubTitle}> Genero</Text>
         <View style={styles.genderContainer}>
           <TouchableHighlight
             style={
-              isChecked
+              isChecked==="HOMBRE"
                 ? styles.genderPressedButton
                 : styles.genderNotPressedButton
             }
             onPress={() => {
-              setChecked(true), console.log(isChecked);
+              setChecked("HOMBRE"), console.log(isChecked);
             }}
           >
             <View>
@@ -49,12 +99,12 @@ export function YourProfile({navigation}) {
           </TouchableHighlight>
           <TouchableHighlight
             style={
-              isChecked
-                ? styles.genderNotPressedButton
-                : styles.genderPressedButton
+              isChecked==="MUJER"
+                ? styles.genderPressedButton
+                : styles.genderNotPressedButton
             }
             onPress={() => {
-              setChecked(false), console.log(isChecked);
+              setChecked("MUJER"), console.log(isChecked);
             }}
           >
             <Text>
@@ -63,7 +113,11 @@ export function YourProfile({navigation}) {
           </TouchableHighlight>
         </View>
         <Text style={styles.SubTitle}> Correo electronico</Text>
-        <TextInput style={styles.inputs} />
+        <TextInput
+          style={styles.inputs}
+          value={mail}
+          onChangeText={(text) => setMail(text)}
+        />
         <PhoneInput
           containerStyle={styles.phoneStyle}
           defaultValue={value}
@@ -75,10 +129,10 @@ export function YourProfile({navigation}) {
           withShadow
           autoFocus
         />
-        <Text style={styles.SubTitle}> Sobre mi</Text>
-        <TextInput style={styles.textArea} />
+        {/* <Text style={styles.SubTitle}> Sobre mi</Text>
+        <TextInput style={styles.textArea} /> */}
       </View>
-      <TouchableHighlight onPress={()=>navigation.navigate("Profile")}>
+      <TouchableHighlight onPress={() => handleSubmit()}>
         <Text style={styles.initButton}>Guardar</Text>
       </TouchableHighlight>
     </ScrollView>
@@ -145,14 +199,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#e8f1ff",
     borderRadius: 10,
   },
-  phoneStyle:{
-    marginTop:15,
-    width:"90%"
+  phoneStyle: {
+    marginTop: 15,
+    width: "90%",
   },
   initButton: {
-    marginTop:40,
+    marginTop: 40,
     textAlign: "center",
-    alignSelf:"center",
+    alignSelf: "center",
     height: 50,
     backgroundColor: "#90e1b4",
     padding: 10,

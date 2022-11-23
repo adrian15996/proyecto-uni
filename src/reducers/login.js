@@ -4,13 +4,13 @@ import {
   SET_NAME,
   SET_PHONE,
   SET_GENDER,
+  SET_HASH,
 } from "../actions/types";
 
 const initialState = {
   hashLogin: null,
   email: null,
   gender: null,
-  idPerson: null,
   name: null,
   phone: null,
 };
@@ -26,7 +26,7 @@ export const loginReducer = (state = initialState, action) => {
     case SET_NAME:
       return { ...state, name: action.payload };
     case SET_PHONE:
-      return { ...state, hashLogin: action.payload };
+      return { ...state, phone: action.payload };
 
     default:
       return state;

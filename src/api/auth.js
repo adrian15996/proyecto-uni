@@ -14,7 +14,6 @@ export const login = async (data) => {
       throw new Error('correo o contraseña incorrectos');
     }
     const result = await response.json();
-    console.log(result);
     return result;
   } catch (error) {
     throw error;
@@ -32,7 +31,6 @@ export const singin = async (data) => {
       body: JSON.stringify({ person: { ...data } }),
     });
     const result = await response.json();
-    console.log(result);
     return result;
   } catch (error) {
     throw error;

@@ -1,4 +1,4 @@
-import { SET_EMAIL, SET_GENDER, SET_LOGIN, SET_NAME, SET_PHONE } from "./types";
+import { SET_EMAIL, SET_GENDER, SET_LOGIN, SET_NAME, SET_PETS, SET_PHONE } from "./types";
 
 export const setLogin = (payload) => ({
   type: SET_LOGIN,
@@ -19,5 +19,10 @@ export const setName = (payload) => ({
 });
 export const setPhone = (payload) => ({
   type: SET_PHONE,
+  payload,
+});
+
+export const setPets = (payload) => ({
+  type: SET_PETS,
   payload,
 });

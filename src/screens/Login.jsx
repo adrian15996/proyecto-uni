@@ -14,22 +14,14 @@ import logo from "../../assets/Logo.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { login } from "../api/auth";
-import { getDataUser } from "../api/users";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setLogin as setLoginAction,
-  setEmail,
-  setGender,
-  setName,
-  setPhone,
 } from "../actions";
 
 const Login = ({ navigation }) => {
-  const loginRedux = useSelector((state) => state.hashLogin);
-  const globalState = useSelector((state) => state);
   const dispatch = useDispatch();
-  console.log(globalState);
   const [loginError, setLoginError] = useState("");
   const windowHeight = useWindowDimensions().height;
   const formik = useFormik({
@@ -46,11 +38,6 @@ const Login = ({ navigation }) => {
         const response = await login(data);
         dispatch(setLoginAction(response.token));
         setLoginError("");
-        const res = await getDataUser(loginRedux);
-        dispatch(setEmail(res.person.email));
-        dispatch(setGender(res.person.gender));
-        dispatch(setName(res.person.name));
-        dispatch(setPhone(res.person.phone));
         navigation.navigate("menu");
       } catch {
         setLoginError("contraseña o correo incorrectas");

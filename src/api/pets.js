@@ -1,8 +1,8 @@
 import { API_HOST } from "../utils/constants";
 
-export const getDataUser = async (token) => {
+export const getDataPets = async (token) => {
   try {
-    const url = `${API_HOST}/api/v1/users`;
+    const url = `${API_HOST}/api/v1/pets`;
     const response = await fetch(url, {
       method: "GET", // or 'PUT'
       headers: {

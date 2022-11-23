@@ -1,33 +1,42 @@
-import { View, Text, StyleSheet,ScrollView,TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableHighlight,
+} from "react-native";
 import React from "react";
 import { PetContainer } from "../components/PetContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { setPets as setPetsAction} from "../actions";
+import { getDataPets } from "../api/pets";
+import { useState } from "react";
 
-export function MyPets() {
-  const arr = [
-    {
-      name: "Troy",
-      breed: "toy terrier",
-      id: 1,
-    },
-    {
-      name: "el secht",
-      breed: "toy terrier",
-      id: 2,
-    },
-    {
-        name: "el pepe",
-        breed: "pitbull",
-        id: 3,
-      },
-  ];
+export function MyPets({navigation}) {
+  const pets = useSelector((data) => data.pet.pets);
+  const {hashLogin} = useSelector((data) => data.login);
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await getDataPets(hashLogin);
+        dispatch(setPetsAction(res))
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <ScrollView>
-    <View style={styles.container}>
-      {arr.map((item) => (
-        <PetContainer name={item.name} breed={item.breed} key={item.id} />
-      ))}
-    </View>
-    <TouchableHighlight onPress={() => console.log("add anotehr pet")}>
+      <View style={styles.container}>
+        {pets.map((item) => (
+          <PetContainer name={item.name} breed={item.breed} key={item.idPets} navigation={navigation} />
+        ))}
+      </View>
+      <TouchableHighlight onPress={() => console.log("add anotehr pet")}>
         <Text style={styles.initButton}>Agregar otra mascota</Text>
       </TouchableHighlight>
     </ScrollView>

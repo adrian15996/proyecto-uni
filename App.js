@@ -4,11 +4,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { NavigationStack } from "./src/Navigation/NavigationStack";
 import { loginReducer } from "./src/reducers/login";
 import { Provider } from "react-redux";
-import { legacy_createStore as createStore } from "redux";
+import { legacy_createStore as createStore,combineReducers } from "redux";
+import { petsReducer } from "./src/reducers/pets";
 
 const Stack = createNativeStackNavigator();
+const rootReducer = combineReducers({login:loginReducer,pet:petsReducer})
 
-const store = createStore(loginReducer);
+const store = createStore(rootReducer);
 function App() {
   return (
     <NavigationContainer>

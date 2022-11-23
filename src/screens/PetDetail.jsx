@@ -13,14 +13,16 @@ import {
   faChevronDown,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
-
+import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import Dog from "../../assets/Dog.png";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { CalendarAndroid } from "../components/CalendarAndroid";
 import { Reminders } from "./Reminders.jsx";
 
-function PetDetail({ navigation }) {
+function PetDetail({ navigation, route}) {
+  const allData = useSelector((data) => data.pet);
+  const {name, breed}= route.params;
   const [isChecked, setChecked] = React.useState(true);
   const [selected, setSelected] = React.useState("");
   const data = [
@@ -36,7 +38,7 @@ function PetDetail({ navigation }) {
     { key: "2", value: "mediano" },
     { key: "2", value: "grande" },
   ];
-
+  console.log(allData);
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -159,11 +161,11 @@ function PetDetail({ navigation }) {
             Agrega vacunas, cortes de pelo, pildoras. y vas a recibir una
             notificacion el siguiente evento.
           </Text>
-          <Reminders/>
+          <Reminders />
         </View>
-        <TouchableHighlight onPress={()=>navigation.navigate("YourProfile")}>
-        <Text style={styles.initButton}>Guardar</Text>
-      </TouchableHighlight>
+        <TouchableHighlight onPress={() => navigation.navigate("YourProfile")}>
+          <Text style={styles.initButton}>Guardar</Text>
+        </TouchableHighlight>
       </View>
     </ScrollView>
   );
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
   },
   initButton: {
     textAlign: "center",
-    alignSelf:"center",
+    alignSelf: "center",
     height: 50,
     backgroundColor: "#90e1b4",
     padding: 10,
@@ -192,12 +194,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginLeft: 10,
   },
-  eventsSubtitle:{
-    width:"80%",
+  eventsSubtitle: {
+    width: "80%",
     fontSize: 13,
     marginLeft: 10,
-  }
-  ,
+  },
   inputs: {
     height: 25,
     width: "90%",

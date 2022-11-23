@@ -10,13 +10,13 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 import Dog from "../../assets/Dog.png";
 import React from "react";
 
-export function PetContainer({ name, breed }) {
+export function PetContainer({ name, breed, navigation}) {
   return (
     <View style={styles.container}>
       <TouchableHighlight
         onPress={() => {
-          console.log("edit");
-        }}
+          navigation.navigate('PetDetail',{name,breed})
+        }}    
       >
         <View style={styles.edit}>
           <FontAwesomeIcon icon={faPen} size={15} />
