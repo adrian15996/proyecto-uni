@@ -10,12 +10,12 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 import Dog from "../../assets/Dog.png";
 import React from "react";
 
-export function PetContainer({ name, breed, navigation}) {
+export function PetContainer({ name,breed, navigation,index}) {
   return (
     <View style={styles.container}>
       <TouchableHighlight
         onPress={() => {
-          navigation.navigate('PetDetail',{name,breed})
+          navigation.navigate('PetDetail',{index})
         }}    
       >
         <View style={styles.edit}>

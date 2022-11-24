@@ -9,6 +9,7 @@ import {Profile} from "../screens/Profile";
 import {YourProfile} from "../screens/YourProfile";
 import {MyPets}  from "../screens/MyPets"
 import {TabNavigation} from "./TabNavigation"
+import {CreatePet} from "../screens/CreatePet"
 
 function NavigationStack({Stack}) {
   return (
@@ -19,6 +20,7 @@ function NavigationStack({Stack}) {
     <Stack.Screen name="thirdMessage" component={ThirdMessage} options={{headerShown:false}} />
     <Stack.Screen name="Registration" component={Registration} options={{headerShown:false}} />
     <Stack.Screen name="PetDetail" component={PetDetail}  options={{ title: 'Informacion de la mascota' }}/>
+    <Stack.Screen name="CreatePet" component={CreatePet}  options={{ title: 'Crear mascota' }}/>
     <Stack.Screen name="YourProfile" component={YourProfile}  options={{ title: 'Informacion del perfil' }}/>
     <Stack.Screen name="Profile" component={Profile}  options={{ title: 'Perfil' }}/>
     <Stack.Screen name="MyPets" component={MyPets}  options={{ title: 'Mis Mascotas' }}/>

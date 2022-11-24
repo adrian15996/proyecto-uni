@@ -1,15 +1,13 @@
 import { useState } from "react";
 import {
   View,
-  Button,
   Text,
   TouchableHighlight,
   StyleSheet,
 } from "react-native";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
-const CalendarAndroid = () => {
-  const [date, setDate] = useState(new Date(1598051730000));
+const CalendarAndroid = ({date,setBirth:setDate}) => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -37,8 +35,8 @@ const CalendarAndroid = () => {
       <View>
         <TouchableHighlight onPress={showDatepicker} style={styles.calendar}>
           <Text>
-            {`${date.getDate().toLocaleString()}/${date
-              .getMonth()
+            {`${date.getDate()}/${(date
+              .getMonth()+1)
               .toLocaleString()}/${date.getFullYear().toLocaleString()}`}
           </Text>
         </TouchableHighlight>

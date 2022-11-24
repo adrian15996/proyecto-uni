@@ -20,7 +20,7 @@ export const getDataPets = async (token) => {
   }
 };
 
-export const updateDataUser = async (token, data) => {
+export const updateDataPet = async (token, data) => {
     try {
       const url = `${API_HOST}/api/v1/users`;
       const response = await fetch(url, {
@@ -33,6 +33,28 @@ export const updateDataUser = async (token, data) => {
       });
       if (!response.ok) {
         throw new Error("A ocurrido un error al actualizar los datos del usuario");
+      }
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+
+  export const createPet = async (token, data) => {
+    try {
+      const url = `${API_HOST}/api/v1/pets`;
+      const response = await fetch(url, {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error("A ocurrido un error al crear la mascota");
       }
       const result = await response.json();
       return result;

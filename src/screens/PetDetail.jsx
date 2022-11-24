@@ -20,11 +20,25 @@ import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { CalendarAndroid } from "../components/CalendarAndroid";
 import { Reminders } from "./Reminders.jsx";
 
-function PetDetail({ navigation, route}) {
-  const allData = useSelector((data) => data.pet);
-  const {name, breed}= route.params;
+function PetDetail({ navigation, route }) {
+  const allData = useSelector((data) => data.pet.pets);
+  const { index } = route.params;
+  const {
+    name: namePet,
+    breed: breedPet,
+    gender: genderPet,
+    dateOfBirth,
+    idPets,
+    size: sizePet,
+  } = allData[index];
   const [isChecked, setChecked] = React.useState(true);
   const [selected, setSelected] = React.useState("");
+
+  const [name, setName] = React.useState(namePet);
+  const [breed, setBreed] = React.useState(breedPet);
+  const [gender, setGender] = React.useState(genderPet);
+  const [sizeLS, setSize] = React.useState(sizePet);
+
   const data = [
     { key: "1", value: "Perro" },
     { key: "2", value: "Gato" },
@@ -55,11 +69,17 @@ function PetDetail({ navigation, route}) {
         <View>
           <Text style={styles.Title}>Informacion General</Text>
           <Text style={styles.SubTitle}> Nombre de la mascota</Text>
-          <TextInput style={styles.inputs} />
+          <TextInput
+            style={styles.inputs}
+            value={name}
+            onChangeText={(text) => {
+              setName(text);
+            }}
+          />
           <Text style={styles.SubTitle}>Tipo de mascota</Text>
           <SelectList
             style={styles.inputs}
-            onSelect={() => console.log("dropdown working")}
+            onSelect={() => console.log("")}
             setSelected={setSelected}
             data={data}
             arrowicon={
@@ -80,7 +100,7 @@ function PetDetail({ navigation, route}) {
           <Text style={styles.SubTitle}>raza</Text>
           <SelectList
             style={styles.inputs}
-            onSelect={() => console.log("dropdown working")}
+            onSelect={() => console.log("")}
             setSelected={setSelected}
             data={razas}
             arrowicon={
@@ -96,7 +116,7 @@ function PetDetail({ navigation, route}) {
             search={false}
             boxStyles={styles.boxDropdown} //override default styles
             dropdownStyles={styles.dropdown}
-            defaultOption={{ key: "1", value: "Borzoi" }} //default selected option
+            defaultOption={{ key: idPets || "1", value: breed || "Borzoi" }} //default selected option
           />
           <Text style={styles.SubTitle}>tamaño</Text>
           <SelectList
@@ -117,18 +137,18 @@ function PetDetail({ navigation, route}) {
             search={false}
             boxStyles={styles.boxDropdown} //override default styles
             dropdownStyles={styles.dropdown}
-            defaultOption={{ key: "1", value: "pequeño" }} //default selected option
+            defaultOption={{ key: idPets || "1", value: sizeLS || "pequeño" }} //default selected option
           />
           <Text style={styles.SubTitle}> Genero</Text>
           <View style={styles.genderContainer}>
             <TouchableHighlight
               style={
-                isChecked
+                gender === "macho"
                   ? styles.genderPressedButton
                   : styles.genderNotPressedButton
               }
               onPress={() => {
-                setChecked(true), console.log(isChecked);
+                setGender("macho");
               }}
             >
               <View>
@@ -139,12 +159,12 @@ function PetDetail({ navigation, route}) {
             </TouchableHighlight>
             <TouchableHighlight
               style={
-                isChecked
+                gender === "macho"
                   ? styles.genderNotPressedButton
                   : styles.genderPressedButton
               }
               onPress={() => {
-                setChecked(false), console.log(isChecked);
+                setGender("hembra");
               }}
             >
               <Text>
@@ -153,7 +173,7 @@ function PetDetail({ navigation, route}) {
             </TouchableHighlight>
           </View>
           <Text style={styles.SubTitle}> Fecha de nacimiento</Text>
-          <CalendarAndroid />
+          <CalendarAndroid date={dateOfBirth} />
         </View>
         <View>
           <Text style={styles.Title}>Eventos</Text>

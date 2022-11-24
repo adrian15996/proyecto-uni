@@ -32,12 +32,12 @@ export function MyPets({navigation}) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        {pets.map((item) => (
-          <PetContainer name={item.name} breed={item.breed} key={item.idPets} navigation={navigation} />
+        {pets.map((item,index) => (
+          <PetContainer name={item.name} index={index} idPet={item.idPets} key={item.idPets} navigation={navigation} />
         ))}
       </View>
       <TouchableHighlight onPress={() => console.log("add anotehr pet")}>
-        <Text style={styles.initButton}>Agregar otra mascota</Text>
+        <Text style={styles.initButton} onPress={()=>{navigation.navigate('CreatePet')}}>Agregar otra mascota</Text>
       </TouchableHighlight>
     </ScrollView>
   );
